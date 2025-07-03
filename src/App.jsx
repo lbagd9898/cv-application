@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Input from "./Input.jsx";
+import Textarea from "./Textarea.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    eduExperience: "",
+    workExperience: "",
+  });
+
+  const [cvData, setCvData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    eduExperience: "",
+    workExperience: "",
+  });
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <section className="general-info">
+        <div>
+          <Input
+            label="First Name:"
+            value={formData.firstName}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Input>
+          <Input
+            label="Last Name:"
+            value={formData.lastName}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Input>
+        </div>
+        <div>
+          <Input
+            label="Email:"
+            value={formData.email}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Input>
+          <Input
+            label="Phone Number:"
+            value={formData.phoneNumber}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Input>
+        </div>
+      </section>
+      <div className="experience">
+        <section className="edu-experience">
+          <Textarea
+            label="Education Experience:"
+            value={formData.eduExperience}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Textarea>
+        </section>
+        <section className="job-experience">
+          <Textarea
+            label="Work Experience:"
+            value={formData.workExperience}
+            onChange={(e) => setFormData(e.target.data)}
+          ></Textarea>
+        </section>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <button>Submit</button>
+      <div id="cv">
+        <div id="personal-info">
+          <div id="name"></div>
+          <div id="email"></div>
+          <div id="phone-number"></div>
+        </div>
+        <div id="work-experience">blah</div>
+        <div id="education-experience">blah</div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
