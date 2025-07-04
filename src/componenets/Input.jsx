@@ -1,15 +1,14 @@
-import { useState } from "react";
-import "./Input.css";
+import "../styles/Input.css";
 
 export default function Input(props) {
-  const [value, setNewValue] = useState("");
   return (
     <div className="cv-input">
       <label className="label"> {props.label} </label>
       <input
+        name={props.name}
         className="input"
-        value={value}
-        onChange={(e) => setNewValue(e.target.value)}
+        value={props.value}
+        onChange={props.onChange}
       ></input>
     </div>
   );
