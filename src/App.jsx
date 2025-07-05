@@ -9,95 +9,170 @@ function App() {
     lastName: "",
     email: "",
     phoneNumber: "",
-    eduExperience: "",
     workExperience: "",
   });
 
-  const [cvData, setCvData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    eduExperience: "",
-    workExperience: "",
+  //saves education data user inputs in form
+  const [eduData, setEduData] = useState({
+    degree: "",
+    university: "",
+    degreeDates: "",
+    notes: "",
   });
 
-  function handleChange(e) {
+  //saves work experience data user puts in form
+  const workTemplate = {
+    company: "",
+    position: "",
+    dates: "",
+    description: "",
+  };
+
+  const [workData, setWorkData] = useState([{ ...workTemplate }]);
+
+  const initialCvData = {
+    contact: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+    },
+    education: [{ degree: "", university: "", degreeDates: "", notes: "" }],
+    work: [],
+  };
+
+  const [cvData, setCvData] = useState(initialCvData);
+
+  function handleChange(setter, e) {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setter((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
 
-  function saveData() {
-    console.log("Savnig formData: ", formData);
-    console.log("saved");
-    setCvData({ ...formData });
+  function handleWorkChange(index, e) {
+    console.log(workData);
+    const { name, value } = e.target;
+    setWorkData((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              [name]: value,
+            }
+          : item
+      )
+    );
+  }
+
+  function saveData(e) {
+    e.preventDefault();
+    setCvData({ contact: { ...formData }, education: [{ ...eduData }] });
     console.log(cvData);
   }
 
   return (
     <>
-      <section className="general-info">
-        <div>
-          <Input
-            label="First Name:"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          ></Input>
-          <Input
-            label="Last Name:"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          ></Input>
-        </div>
-        <div>
-          <Input
-            label="Email:"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          ></Input>
-          <Input
-            label="Phone Number:"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-          ></Input>
-        </div>
-      </section>
-      <div className="experience">
-        <section className="job-experience">
-          <Textarea
-            label="Work Experience:"
-            name="workExperience"
-            value={formData.workExperience}
-            onChange={handleChange}
-          ></Textarea>
+      <form onSubmit={saveData}>
+        <section className="general-info">
+          <h2>Personal Info</h2>
+          <div>
+            <Input
+              label="First Name:"
+              name="firstName"
+              value={formData.firstName}
+              onChange={(e) => handleChange(setFormData, e)}
+            ></Input>
+            <Input
+              label="Last Name:"
+              name="lastName"
+              value={formData.lastName}
+              onChange={(e) => handleChange(setFormData, e)}
+            ></Input>
+          </div>
+          <div>
+            <Input
+              label="Email:"
+              name="email"
+              value={formData.email}
+              onChange={(e) => handleChange(setFormData, e)}
+            ></Input>
+            <Input
+              label="Phone Number:"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={(e) => handleChange(setFormData, e)}
+            ></Input>
+          </div>
         </section>
         <section className="edu-experience">
-          <Textarea
-            label="Education Experience:"
-            name="eduExperience"
-            value={formData.eduExperience}
-            onChange={handleChange}
-          ></Textarea>
+          <h2>Education</h2>
+          <div>
+            <Input
+              label="Degree:"
+              name="degree"
+              value={eduData.degree}
+              onChange={(e) => handleChange(setEduData, e)}
+            ></Input>
+            <Input
+              label="University:"
+              name="university"
+              value={eduData.university}
+              onChange={(e) => handleChange(setEduData, e)}
+            ></Input>
+          </div>
+          <div>
+            <Input
+              label="Dates:"
+              name="degreeDates"
+              value={eduData.degreeDates}
+              onChange={(e) => handleChange(setEduData, e)}
+            ></Input>
+            <Input
+              label="Notes:"
+              name="notes"
+              value={eduData.notes}
+              onChange={(e) => handleChange(setEduData, e)}
+            ></Input>
+          </div>
         </section>
-      </div>
-      <button onClick={saveData}>Submit</button>
+        <h2>Work Experience</h2>
+        <section className="job-experience">
+          <div>
+            <Input
+              label="Company: "
+              name="company"
+              value={workData[0].company}
+              onChange={(e) => handleWorkChange(0, e)}
+            ></Input>
+            <Input
+              label="Position: "
+              name="position"
+              value={workData[0].position}
+              onChange={(e) => handleWorkChange(0, e)}
+            ></Input>
+          </div>
+        </section>
+        <button type="submit">Submit</button>
+      </form>
       <div id="cv">
         <div id="personal-info">
           <div id="name">
-            {cvData.firstName} {cvData.lastName}
+            {cvData.contact.firstName} {cvData.contact.lastName}
           </div>
-          <div id="email">{cvData.email}</div>
+          <div id="email">{cvData.contact.email}</div>
           <div id="phone-number">{cvData.phoneNumber}</div>
         </div>
-        <div id="work-experience">{cvData.workExperience}</div>
-        <div id="education-experience">{cvData.eduExperience}</div>
+        <div id="work-experience"></div>
+        <div id="education-experience">
+          <h3>Education</h3>
+          <strong>
+            {cvData.education[0].degree} {cvData.education[0].university}
+          </strong>
+          <i>{cvData.education[0].degreeDates}</i>
+          <div>{cvData.education[0].notes}</div>
+        </div>
       </div>
     </>
   );

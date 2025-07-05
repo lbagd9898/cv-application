@@ -52,10 +52,21 @@
 
 #cv > * {
   background-color: white;
-  padding: 1rem;
+  padding: 0.5rem;
+}
+
+#cv h3 {
+  margin: 0;
 }
 
 #personal-info {
   grid-column: 1 / 2;
   grid-row: 1 / -1;
+}
+
+#education-experience > div,
+#education-experience > i,
+#education-experience > strong {
+  text-align: left;
+  display: block;
 }
