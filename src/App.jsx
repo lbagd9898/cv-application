@@ -5,6 +5,7 @@ import Workdiv from "./componenets/Workdiv.jsx";
 import Edudiv from "./componenets/Edudiv.jsx";
 import Textarea from "./componenets/Textarea.jsx";
 import EducationFields from "./componenets/EducationFields.jsx";
+import WorkFields from "./componenets/WorkFields.jsx";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -26,25 +27,20 @@ function App() {
     },
   ]);
 
-  //saves work experience data user puts in form
-  const workTemplate = {
-    company: "",
-    position: "",
-    dates: "",
-    location: "",
-    description: "",
-  };
-
-  const [workData, setWorkData] = useState({ ...workTemplate });
+  const [workData, setWorkData] = useState([
+    {
+      id: crypto.randomUUID(),
+      company: "",
+      position: "",
+      dates: "",
+      location: "",
+      description: "",
+    },
+  ]);
 
   const initialCvData = {
-    contact: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-    },
-    education: [{ degree: "", university: "", degreeDates: "", notes: "" }],
+    contact: formData,
+    education: [eduData],
     work: [workData],
   };
 
@@ -64,28 +60,46 @@ function App() {
     }));
   }
 
-  // function handleWorkChange(index, e) {
-  //   console.log(workData);
-  //   const { name, value } = e.target;
-  //   setWorkData((prev) =>
-  //     prev.map((item, i) =>
-  //       i === index
-  //         ? {
-  //             ...item,
-  //             [name]: value,
-  //           }
-  //         : item
-  //     )
-  //   );
-  // }
+  function handleWorkChange(id, field, value) {
+    setWorkData((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  }
+
+  function addEducationField() {
+    setEduData((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        degree: "",
+        university: "",
+        degreeDates: "",
+        notes: "",
+      },
+    ]);
+  }
+
+  function addWorkField() {
+    setWorkData((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        company: "",
+        position: "",
+        dates: "",
+        location: "",
+        description: "",
+      },
+    ]);
+  }
 
   function saveData(e) {
     e.preventDefault();
     console.log(workData);
     setCvData({
       contact: { ...formData },
-      education: [{ ...eduData }],
-      work: [{ ...workData }],
+      education: [...eduData],
+      work: [...workData],
     });
     console.log(cvData.work);
   }
@@ -95,34 +109,36 @@ function App() {
       <form onSubmit={saveData}>
         <section className="general-info">
           <h2>Personal Info</h2>
-          <div>
-            <Input
-              label="First Name:"
-              name="firstName"
-              value={formData.firstName}
-              onChange={(e) => handleChange(setFormData, e)}
-            ></Input>
-            <Input
-              label="Last Name:"
-              name="lastName"
-              value={formData.lastName}
-              onChange={(e) => handleChange(setFormData, e)}
-            ></Input>
-          </div>
-          <div>
-            <Input
-              label="Email:"
-              name="email"
-              value={formData.email}
-              onChange={(e) => handleChange(setFormData, e)}
-            ></Input>
-            <Input
-              label="Phone Number:"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={(e) => handleChange(setFormData, e)}
-            ></Input>
-          </div>
+          <fieldset>
+            <div>
+              <Input
+                label="First Name:"
+                name="firstName"
+                value={formData.firstName}
+                onChange={(e) => handleChange(setFormData, e)}
+              ></Input>
+              <Input
+                label="Last Name:"
+                name="lastName"
+                value={formData.lastName}
+                onChange={(e) => handleChange(setFormData, e)}
+              ></Input>
+            </div>
+            <div>
+              <Input
+                label="Email:"
+                name="email"
+                value={formData.email}
+                onChange={(e) => handleChange(setFormData, e)}
+              ></Input>
+              <Input
+                label="Phone Number:"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={(e) => handleChange(setFormData, e)}
+              ></Input>
+            </div>
+          </fieldset>
         </section>
         <section className="edu-experience">
           <h2>Education</h2>
@@ -130,44 +146,23 @@ function App() {
             <EducationFields key={ed.id} data={ed} onChange={handleEduChange} />
           ))}
         </section>
-        <button>Add Education</button>
+        <button type="button" onClick={addEducationField}>
+          Add Education
+        </button>
         <h2>Work Experience</h2>
         <section className="job-experience">
-          <div>
-            <Input
-              label="Company: "
-              name="company"
-              value={workData.company}
-              onChange={(e) => handleChange(setWorkData, e)}
-            ></Input>
-            <Input
-              label="Position: "
-              name="position"
-              value={workData.position}
-              onChange={(e) => handleChange(setWorkData, e)}
-            ></Input>
-          </div>
-          <div>
-            <Input
-              label="Dates "
-              name="dates"
-              value={workData.dates}
-              onChange={(e) => handleChange(setWorkData, e)}
-            ></Input>
-            <Input
-              label="Location: "
-              name="location"
-              value={workData.location}
-              onChange={(e) => handleChange(setWorkData, e)}
-            ></Input>
-          </div>
-          <Textarea
-            label="Description: "
-            name="description"
-            value={workData.description}
-            onChange={(e) => handleChange(setWorkData, e)}
-          ></Textarea>
+          {workData.map((work) => (
+            <WorkFields
+              key={work.id}
+              data={work}
+              onChange={handleWorkChange}
+            ></WorkFields>
+          ))}
+          <button type="button" onClick={addWorkField}>
+            Add Work
+          </button>
         </section>
+
         <button type="submit">Submit</button>
       </form>
       <div id="cv">
@@ -180,11 +175,15 @@ function App() {
         </div>
         <div id="work-experience">
           <h3>Work Experience</h3>
-          <Workdiv workData={cvData.work[0]}></Workdiv>
+          {cvData.work.map((work) => (
+            <Workdiv workData={work}></Workdiv>
+          ))}
         </div>
         <div id="education-experience">
           <h3>Education</h3>
-          <Edudiv eduData={cvData.education[0]}></Edudiv>
+          {cvData.education.map((edu) => (
+            <Edudiv eduData={edu}></Edudiv>
+          ))}
         </div>
       </div>
     </>
