@@ -1,0 +1,8 @@
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.workDiv > section {
+  text-align: left !important;
+}

@@ -69,7 +69,7 @@ button:focus-visible {
 
 section > div,
 .experience {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }

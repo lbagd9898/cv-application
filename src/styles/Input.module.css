@@ -1,0 +1,14 @@
+.cvInput {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.label {
+  justify-self: flex-start;
+}
+
+Input {
+  display: flex;
+  justify-content: space-between;
+}
