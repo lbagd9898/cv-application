@@ -105,88 +105,96 @@ function App() {
   }
 
   return (
-    <>
-      <form onSubmit={saveData}>
-        <section className="general-info">
-          <h2>Personal Info</h2>
-          <fieldset>
-            <div>
-              <Input
-                label="First Name:"
-                name="firstName"
-                value={formData.firstName}
-                onChange={(e) => handleChange(setFormData, e)}
-              ></Input>
-              <Input
-                label="Last Name:"
-                name="lastName"
-                value={formData.lastName}
-                onChange={(e) => handleChange(setFormData, e)}
-              ></Input>
+    <div>
+      <header>
+        <h1>Your CV Generator </h1>
+      </header>
+      <div id="container">
+        <form onSubmit={saveData}>
+          <section className="general-info">
+            <h2>Personal Info</h2>
+            <fieldset>
+              <div>
+                <Input
+                  label="First Name:"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={(e) => handleChange(setFormData, e)}
+                ></Input>
+                <Input
+                  label="Last Name:"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={(e) => handleChange(setFormData, e)}
+                ></Input>
+              </div>
+              <div>
+                <Input
+                  label="Email:"
+                  name="email"
+                  value={formData.email}
+                  onChange={(e) => handleChange(setFormData, e)}
+                ></Input>
+                <Input
+                  label="Phone Number:"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={(e) => handleChange(setFormData, e)}
+                ></Input>
+              </div>
+            </fieldset>
+          </section>
+          <section className="edu-experience">
+            <h2>Education</h2>
+            {eduData.map((ed) => (
+              <EducationFields
+                key={ed.id}
+                data={ed}
+                onChange={handleEduChange}
+              />
+            ))}
+            <button type="button" onClick={addEducationField}>
+              Add Education
+            </button>
+          </section>
+          <h2>Work Experience</h2>
+          <section className="job-experience">
+            {workData.map((work) => (
+              <WorkFields
+                key={work.id}
+                data={work}
+                onChange={handleWorkChange}
+              ></WorkFields>
+            ))}
+            <button type="button" onClick={addWorkField}>
+              Add Work
+            </button>
+          </section>
+          <button type="submit">Submit</button>
+        </form>
+        <div id="cv">
+          <div id="personal-info">
+            <div id="name">
+              {cvData.contact.firstName} {cvData.contact.lastName}
             </div>
-            <div>
-              <Input
-                label="Email:"
-                name="email"
-                value={formData.email}
-                onChange={(e) => handleChange(setFormData, e)}
-              ></Input>
-              <Input
-                label="Phone Number:"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={(e) => handleChange(setFormData, e)}
-              ></Input>
-            </div>
-          </fieldset>
-        </section>
-        <section className="edu-experience">
-          <h2>Education</h2>
-          {eduData.map((ed) => (
-            <EducationFields key={ed.id} data={ed} onChange={handleEduChange} />
-          ))}
-        </section>
-        <button type="button" onClick={addEducationField}>
-          Add Education
-        </button>
-        <h2>Work Experience</h2>
-        <section className="job-experience">
-          {workData.map((work) => (
-            <WorkFields
-              key={work.id}
-              data={work}
-              onChange={handleWorkChange}
-            ></WorkFields>
-          ))}
-          <button type="button" onClick={addWorkField}>
-            Add Work
-          </button>
-        </section>
-
-        <button type="submit">Submit</button>
-      </form>
-      <div id="cv">
-        <div id="personal-info">
-          <div id="name">
-            {cvData.contact.firstName} {cvData.contact.lastName}
+            <div id="email">{cvData.contact.email}</div>
+            <div id="phone-number">{cvData.phoneNumber}</div>
           </div>
-          <div id="email">{cvData.contact.email}</div>
-          <div id="phone-number">{cvData.phoneNumber}</div>
-        </div>
-        <div id="work-experience">
-          <h3>Work Experience</h3>
-          {cvData.work.map((work) => (
-            <Workdiv workData={work}></Workdiv>
-          ))}
-        </div>
-        <div id="education-experience">
-          <h3>Education</h3>
-          {cvData.education.map((edu) => (
-            <Edudiv eduData={edu}></Edudiv>
-          ))}
+          <div id="work-experience">
+            <h3>Work Experience</h3>
+            {cvData.work.map((work) => (
+              <Workdiv workData={work}></Workdiv>
+            ))}
+          </div>
+          <div id="education-experience">
+            <h3>Education</h3>
+            {cvData.education.map((edu) => (
+              <Edudiv eduData={edu}></Edudiv>
+            ))}
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
