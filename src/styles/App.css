@@ -90,4 +90,10 @@ form > section {
   display: grid;
   grid-template-columns: minmax(200px, 1fr) 1080px;
   column-gap: 3rem;
+  padding-top: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: center !important;
 }

@@ -106,13 +106,13 @@ function App() {
 
   return (
     <div>
-      <header>
+      <header className="navbar navbar-expand-lg bg-primary">
         <h1>Your CV Generator </h1>
       </header>
       <div id="container">
         <form onSubmit={saveData}>
           <section className="general-info">
-            <h2>Personal Info</h2>
+            <h3>Personal Info</h3>
             <fieldset>
               <div>
                 <Input
@@ -145,7 +145,7 @@ function App() {
             </fieldset>
           </section>
           <section className="edu-experience">
-            <h2>Education</h2>
+            <h3>Education</h3>
             {eduData.map((ed) => (
               <EducationFields
                 key={ed.id}
@@ -153,11 +153,15 @@ function App() {
                 onChange={handleEduChange}
               />
             ))}
-            <button type="button" onClick={addEducationField}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={addEducationField}
+            >
               Add Education
             </button>
           </section>
-          <h2>Work Experience</h2>
+          <h3>Work Experience</h3>
           <section className="job-experience">
             {workData.map((work) => (
               <WorkFields
@@ -166,11 +170,17 @@ function App() {
                 onChange={handleWorkChange}
               ></WorkFields>
             ))}
-            <button type="button" onClick={addWorkField}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={addWorkField}
+            >
               Add Work
             </button>
           </section>
-          <button type="submit">Submit</button>
+          <button className="btn btn-primary" type="submit">
+            Submit
+          </button>
         </form>
         <div id="cv">
           <div id="personal-info">
